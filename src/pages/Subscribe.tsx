@@ -1,27 +1,53 @@
+import classNames from "classnames";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { GitHubButton } from '../components/GitHubButton';
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
+import { useAuth } from "../hooks/useAuth";
+
+type SubscribeError = {
+  field: string;
+  message: string;
+}
 
 export function Subscribe() {
-  const navigate = useNavigate();
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-
+  const [error, setError] = useState<SubscribeError[]>([]);
+  const { signIn } = useAuth();
   const [createSubscriber, { loading }] = useCreateSubscriberMutation()
+
+  const emailError = error.find(err => err.field === "email");
+  const nameError = error.find(err => err.field === "name");
 
   async function handleSubscribe(e: FormEvent) {
     e.preventDefault();
+    setError([]);
 
-    await createSubscriber({
-      variables: {
-        name,
-        email
+    if(!name || !email) {
+      if(!name) {
+        setError(state => [...state, {field: "name", message:"Este campo é obrigatório"}]);
       }
-    });
+      console.log([...error])
+      if(!email) {
+        setError(state => [...state, { field:"email", message:"Este campo é obrigatório" }]);
+      }
+      return toast.error("Preencha todos os campos antes de prosseguir")
+    }
 
-    navigate('/event');
+    try {
+      await createSubscriber({
+        variables: {
+          name,
+          email
+        }
+      });
+  
+      signIn({ newUser: { name, email } });
+    } catch (err) {
+      return toast.error(String(err));
+    }
   }
 
   return (
@@ -43,18 +69,32 @@ export function Subscribe() {
 
           <form onSubmit={handleSubscribe} className="flex flex-col gap-2 w-full">
             <input
-              className="bg-gray-800 rounded px-5 h-14"
+              className={classNames("bg-gray-800 rounded px-5 h-14", {
+                "border": nameError,
+                "border-red-500": nameError,
+              })}
               type="text" 
               placeholder="Seu nome completo"
               onChange={(e) => setName(e.target.value)} 
             />
 
             <input
-              className="bg-gray-800 rounded px-5 h-14"
+              className={classNames("bg-gray-800 rounded px-5 h-14", {
+                "border": emailError,
+                "border-red-500": emailError,
+              })}
               type="email"
               placeholder="Digite seu e-mail"
               onChange={(e) => setEmail(e.target.value)}
             />
+            
+            <div className="flex items-center">
+              <div className="bg-gray-500 h-[0.125rem] w-full"/>
+              <p className="px-2">OU</p>
+              <div className="bg-gray-500 h-[0.125rem] w-full"/>
+            </div>
+
+            <GitHubButton />
 
             <button 
               type="submit"

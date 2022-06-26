@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
+import mockup from '../assets/code-mockup.png';
 import { GitHubButton } from '../components/GitHubButton';
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
@@ -107,7 +108,7 @@ export function Subscribe() {
         </div>
       </div>
 
-        <img src="/src/assets/code-mockup.png" className="mt-10" alt="" />
+        <img src={mockup} className="mt-10" alt="" />
       </div>
   )
 }

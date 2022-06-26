@@ -75,7 +75,7 @@ export function Video({ lessonSlug }: VideoProps) {
 
         <div className="gap-8 mt-20 grid grid-cols-2">
           <a 
-            href="" 
+            href="#" 
             className="bg-gray-700 rounded overflow-hidden flex items-stretch gap-6 hover:bg-gray-600 transition-colors"
           >
             <div className="bg-green-700 h-full p-6 flex items-center">
@@ -95,7 +95,7 @@ export function Video({ lessonSlug }: VideoProps) {
           </a>
 
           <a 
-            href="" 
+            href="#" 
             className="bg-gray-700 rounded overflow-hidden flex items-stretch gap-6 hover:bg-gray-600 transition-colors"
           >
             <div className="bg-green-700 h-full p-6 flex items-center">

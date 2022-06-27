@@ -1,6 +1,7 @@
 import { GithubAuthProvider, signInWithPopup } from "firebase/auth";
 import { createContext, ReactNode, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Cookie from 'universal-cookie';
 import { useCreateSubscriberMutation } from "../graphql/generated";
 import { auth } from "../lib/firebase";
@@ -36,12 +37,11 @@ export function AuthProvider({ children }: AuthProviderType) {
   const navigate = useNavigate();
 
   const signIn = useCallback(async ({ newUser, social }: SignInParams) => {
-    if(social === "github" && !user) {
-      try {
+    if(social === "github") {
         const result = await signInWithPopup(auth, githubProvider);
   
         if(!result.user.displayName || !result.user.email) {
-          throw new Error("Informações não suficientes (nome e email são necessários)")
+          return toast.error("Informações não suficientes (nome e email são necessários)")
         }
   
         const newUser = {
@@ -50,22 +50,27 @@ export function AuthProvider({ children }: AuthProviderType) {
         }
   
       setUser(newUser);
-      await createSubscriber({
+      
+      const { errors } = await createSubscriber({
         variables: {
           name: newUser.name,
           email: newUser.email
         }
       });
 
-      cookie.set("user", newUser)
-      } catch(err) {
-        throw new Error(String(err));
+      if(errors) {
+        return errors.forEach(err => {
+          console.log({err})
+          toast.error(err.message)
+        }) 
       }
+      cookie.set("user", newUser);
+
     } else if(newUser) {
       setUser(newUser);
-      cookie.set("user", newUser)
+      cookie.set("user", newUser);
     } else {
-      throw new Error("You need to pass either a social or a user as parameter");
+      return toast.error("You need to pass either a social or a user as parameter");
     }
     navigate('/event')
   },[])

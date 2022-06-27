@@ -30,7 +30,6 @@ export function Subscribe() {
       if(!name) {
         setError(state => [...state, {field: "name", message:"Este campo é obrigatório"}]);
       }
-      console.log([...error])
       if(!email) {
         setError(state => [...state, { field:"email", message:"Este campo é obrigatório" }]);
       }
@@ -38,16 +37,25 @@ export function Subscribe() {
     }
 
     try {
-      await createSubscriber({
-        variables: {
-          name,
-          email
-        }
-      });
-  
-      signIn({ newUser: { name, email } });
-    } catch (err) {
-      return toast.error(String(err));
+    await createSubscriber({
+      variables: {
+        name,
+        email
+      }
+    });
+
+    signIn({ newUser: { name, email } });
+    } catch (err: any) {
+      const { errors } = err.networkError.result
+      
+      if(errors) {
+        errors.forEach((error: {message: string}) => {
+          if(error.message.includes("email") && error.message.includes("unique")){
+            toast.error("Esse email já está cadastrado")
+          }
+        })
+      }
+
     }
   }
 

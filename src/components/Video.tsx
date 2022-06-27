@@ -18,14 +18,14 @@ export function Video({ lessonSlug }: VideoProps) {
 
   if(!data || !data.lesson) {
     return (
-      <div className="flex-1">
-        <p>Carregando</p>
+      <div className="flex-1 grid place-items-center">
+        <span>Carregando...</span>
       </div>
     )
   }
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 block">
       <div className="bg-black flex justify-center">
         <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
           <Player>

@@ -26,7 +26,7 @@ export function Event() {
       <Header openSidebar={() => setIsSidebarOpen(!isSidebarOpen)} isSidebarOpen={isSidebarOpen}/>
       <main className="flex flex-1">
         { slug 
-        ? <Video lessonSlug={slug}/> 
+        ? <Video lessonSlug={slug} isSidebarOpen={isSidebarOpen} /> 
         : <div className="flex-1" />}
         <Sidebar isSidebarOpen={isSidebarOpen} />
       </main>

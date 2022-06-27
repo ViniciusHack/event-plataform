@@ -3,7 +3,7 @@
 </h1>
 
 <h3 align="center">
-  event-platform
+  Event platform
 </h3>
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/ViniciusHack/event-platform">
@@ -27,6 +27,14 @@
 
 ## 👨🏻‍💻 About the project
 **event-platform** is a project from Ignite-Lab | ReactJS that we've created an event platform.
+
+
+![delete](https://user-images.githubusercontent.com/60555584/175852084-137cf392-87e0-41d0-a525-254b8eaa47b7.gif)
+<div align="center">
+<img src="https://user-images.githubusercontent.com/60555584/175855286-025b5dd9-cc66-4f94-ae26-70ade9ff153d.gif" />
+</div>
+
+
 
 ## 🔨 Features
 - Subscription

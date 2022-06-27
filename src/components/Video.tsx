@@ -20,7 +20,10 @@ export function Video({ lessonSlug, isSidebarOpen }: VideoProps) {
 
   if(!data || !data.lesson) {
     return (
-      <div className="flex-1 grid place-items-center">
+      <div className={classNames("flex-1 grid place-items-center", {
+        "hidden": isSidebarOpen,
+        "grid": !isSidebarOpen
+      })}>
         <span>Carregando...</span>
       </div>
     )
@@ -94,7 +97,7 @@ export function Video({ lessonSlug, isSidebarOpen }: VideoProps) {
               </p>
             </div>
 
-            <div className="h-full p-6 flex items-center">
+            <div className="h-full p-6 items-center hidden md:flex">
               <CaretRight size={24} />
             </div>
           </a>
@@ -114,7 +117,7 @@ export function Video({ lessonSlug, isSidebarOpen }: VideoProps) {
               </p>
             </div>
 
-            <div className="h-full p-6 flex items-center">
+            <div className="h-full p-6 items-center hidden md:flex">
               <CaretRight size={24} />
             </div>
           </a>

@@ -40,6 +40,12 @@
 - Subscription
 - Watch videos
 
+#### Extra Features
+- Social Login
+- Not found page
+- Validations
+- Authorization management
+
 ## 💻 Getting started
 
 ### Requirements

@@ -40,7 +40,7 @@
 - Subscription
 - Watch videos
 
-#### Extra Features
+#### Extra Features (my improvements)
 - Social Login
 - Not found page
 - Validations
